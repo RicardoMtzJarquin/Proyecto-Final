@@ -2,7 +2,7 @@
 
 
 const double PI = 3.1415926535897;
-float text_der = 1.0;
+float text_der = 0.0;
 float text_izq = 0.0;
 
 void CFiguras::skybox(float largo, float altura, float profundidad, GLuint text)  //Funcion creacion cielo
@@ -284,7 +284,13 @@ void CFiguras::prisma_anun (GLuint text, GLuint text2)  //Funcion creacion prism
 				{-0.5 ,0.5, 0.5},    //Coordenadas Vértice 7 V7
 				};
 
-		
+	glDisable(GL_LIGHTING);
+	glEnable(GL_ALPHA_TEST);
+	//glDisable(GL_DEPTH_TEST);   // Turn Depth Testing Off
+	glAlphaFunc(GL_GREATER, 0.1);
+	//glEnable(GL_BLEND);     // Turn Blending On
+	//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glBindTexture(GL_TEXTURE_2D, text);
 		glBindTexture(GL_TEXTURE_2D, text2);   // choose the texture to use.
 		glBegin(GL_POLYGON);	//Front
 			glNormal3f( 0.0f, 0.0f, 1.0f);
@@ -329,11 +335,16 @@ void CFiguras::prisma_anun (GLuint text, GLuint text2)  //Funcion creacion prism
 		glBindTexture(GL_TEXTURE_2D, text);   // choose the texture to use.
 		glBegin(GL_POLYGON);  //Top
 		glNormal3f( 0.0f,1.0f, 0.0f);
-			glTexCoord2f(text_der, 0.0f); glVertex3fv(vertice[4]);
-			glTexCoord2f(text_der, 1.0f); glVertex3fv(vertice[5]);
-			glTexCoord2f(text_izq, 1.0f); glVertex3fv(vertice[6]);
-			glTexCoord2f(text_izq, 0.0f); glVertex3fv(vertice[7]);
+		glTexCoord2f(text_der + 0.0, 0.0f); glVertex3fv(vertice[4]);
+		glTexCoord2f(text_der + 0.0, 1.0f); glVertex3fv(vertice[5]);
+		glTexCoord2f(text_izq + 1.0, 1.0f); glVertex3fv(vertice[6]);
+		glTexCoord2f(text_izq + 1.0, 0.0f); glVertex3fv(vertice[7]);
 		glEnd();
+		glDisable(GL_ALPHA_TEST);
+		//glDisable(GL_BLEND);        // Turn Blending Off
+		//glEnable(GL_DEPTH_TEST);    // Turn Depth Testing On
+		glEnable(GL_LIGHTING);
+
 }
 
 

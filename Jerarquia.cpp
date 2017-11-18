@@ -44,9 +44,13 @@ CTexture help;
 CTexture blood;
 CTexture raya;
 CTexture mono;
+CTexture piso_casa;
+CTexture neblina;
+CTexture trans;
 
 CFiguras sky;
 CFiguras prisma;
+
 
 void plano(GLint text) {
 	glPushMatrix();
@@ -141,6 +145,7 @@ void alpha(GLint text)
 	//glEnable(GL_BLEND);     // Turn Blending On
 	//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	glBindTexture(GL_TEXTURE_2D,text);
+	
 	glBegin(GL_QUADS); //plano
 	glColor3f(1.0, 1.0, 1.0);
 	glNormal3f(0.0f, 0.0f, 1.0f);
@@ -185,6 +190,7 @@ void alpha(GLint text)
 	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0, 20.0, 0.0);
 	glTexCoord2f(0.0f, 1.0f); glVertex3f(-10.0, 20.0, 0.0);
 	glEnd();
+	
 	glDisable(GL_ALPHA_TEST);
 	//glDisable(GL_BLEND);        // Turn Blending Off
 	//glEnable(GL_DEPTH_TEST);    // Turn Depth Testing On
@@ -269,6 +275,15 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	mono.LoadTGA("Texturas/mono.tga");
 	mono.BuildGLTexture();
 	mono.ReleaseImage();
+	piso_casa.LoadTGA("Texturas/piso_casa.tga");
+	piso_casa.BuildGLTexture();
+	piso_casa.ReleaseImage();
+    neblina.LoadTGA("Texturas/neblina.tga");
+	neblina.BuildGLTexture();
+	neblina.ReleaseImage();
+	trans.LoadTGA("Texturas/tranzparencia.tga");
+	trans.BuildGLTexture();
+	trans.ReleaseImage();
 	//END NEW//////////////////////////////
 
 	objCamera.Position_Camera(0,2.5f,3, 0,2.5f,0, 0, 1, 0);
@@ -502,6 +517,17 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glEnable(GL_LIGHTING);
 			glPopMatrix();
 //////////SANGRE///////////////
+
+			glPushMatrix();
+			glDisable(GL_LIGHTING);
+			glColor3f(0.4, 0.4, 0.4);
+			glRotatef(90.0, 1.0, 0.0, 0.0);
+			glTranslatef(4.0, -5.5, 5.9);
+			glScalef(1.0, 0.93, 0.0);
+			plano(piso_casa.GLindex);//piso_casa
+			glEnable(GL_LIGHTING);
+			glPopMatrix();
+
 			glPushMatrix();
 			glDisable(GL_LIGHTING);
 			glColor3f(0.4, 0.4, 0.4);
@@ -530,6 +556,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			plano(raya.GLindex);
 			glEnable(GL_LIGHTING);
 			glPopMatrix();
+
 			glPopMatrix();
 ///////////////////////////////////////////////////////////
 			/*ARBOLES*/
@@ -541,7 +568,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 			glPushMatrix();
 			glColor3f(0.2, 0.2, 0.2);
-			glTranslatef(8.0, -1.5, -10.0);
+			glTranslatef(8.0, 0.0, -10.0);
 			arbol();
 			glPopMatrix();
 
@@ -580,16 +607,6 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glTranslatef(2.0, 0.0, -15.0);
 			arbol();
 			glPopMatrix();
-
-			glPushMatrix();
-			glColor3f(0.2, 0.2, 0.2);
-			glTranslatef(-13.0, 0.0, -4.0);
-			glScalef(0.2, 0.2, 0.2);
-			alpha(mono.GLindex);
-			glPopMatrix();
-
-
-
 			glPopMatrix();
 
 
@@ -598,7 +615,20 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 
 		glPopMatrix(); 
+/**************NEBLINA****************/
 
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2, 0.2, 0.2);
+		//glRotatef(90.0, 1.0, 0.0, 0.0);
+		glTranslatef(0.0, 0.0, -1.0);
+		glScalef(130.0, 1.0, 130.0);
+		prisma.prisma_anun(neblina.GLindex, trans.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+
+/**********************************************/
 	glPopMatrix();
 
 	glutSwapBuffers ( );
@@ -607,6 +637,14 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 void animacion()
 {
+	
+	prisma.text_izq -= 0.0001;
+	prisma.text_der += 0.0001;
+	if (prisma.text_izq<-1)
+		prisma.text_izq = 0;
+	if (prisma.text_der<0)
+		prisma.text_der = 1;
+	
 
 	glutPostRedisplay();
 }
