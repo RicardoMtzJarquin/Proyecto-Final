@@ -46,7 +46,23 @@ CTexture raya;
 CTexture mono;
 CTexture piso_casa;
 CTexture neblina;
+CTexture neblina1;
 CTexture trans;
+CTexture wall;
+CTexture piso;
+CTexture door;
+CTexture wood;
+CTexture ventana;
+CTexture ventan_arriba;
+CTexture vela;
+CTexture penta;
+
+CTexture cuadro1;
+CTexture cuadro2;
+CTexture cuadro3;
+
+
+
 
 CFiguras sky;
 CFiguras prisma;
@@ -63,7 +79,7 @@ void plano(GLint text) {
 	//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	glBindTexture(GL_TEXTURE_2D, text);
 	glBegin(GL_QUADS); //plano
-	glColor3f(1.0, 1.0, 1.0);
+	//glColor3f(1.0, 1.0, 1.0);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-10.0, 0.0, 0.0);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0, 0.0, 0.0);
@@ -73,6 +89,73 @@ void plano(GLint text) {
 	glPopMatrix();
 
 }
+
+void dosde(GLint text)
+{
+	glPushMatrix();
+	glDisable(GL_LIGHTING);
+	glEnable(GL_ALPHA_TEST);
+	//glDisable(GL_DEPTH_TEST);   // Turn Depth Testing Off
+	glAlphaFunc(GL_GREATER, 0.1);
+	//glEnable(GL_BLEND);     // Turn Blending On
+	//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glBindTexture(GL_TEXTURE_2D, text);
+	glBegin(GL_QUADS); //plano
+	//glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-10.0, 0.0, 0.0);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0, 0.0, 0.0);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0, 20.0, 0.0);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-10.0, 20.0, 0.0);
+	glEnd();
+	glPopMatrix();
+	
+	glPushMatrix();
+	glRotatef(45, 0, 1, 0);
+	glBegin(GL_QUADS); //plano
+	glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-10.0, 0.0, 0.0);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0, 0.0, 0.0);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0, 20.0, 0.0);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-10.0, 20.0, 0.0);
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glRotatef(-45, 0, 1, 0);
+	glBegin(GL_QUADS); //plano
+	glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-10.0, 0.0, 0.0);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0, 0.0, 0.0);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0, 20.0, 0.0);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-10.0, 20.0, 0.0);
+	glEnd();
+	glPopMatrix();
+	
+	glPushMatrix();
+	glRotatef(90, 0, 1, 0);
+	glBegin(GL_QUADS); //plano
+	//glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-10.0, 0.0, 0.0);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0, 0.0, 0.0);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0, 20.0, 0.0);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-10.0, 20.0, 0.0);
+	glEnd();
+	glDisable(GL_ALPHA_TEST);
+	//glDisable(GL_BLEND);        // Turn Blending Off
+	//glEnable(GL_DEPTH_TEST);    // Turn Depth Testing On
+	glEnable(GL_LIGHTING);
+
+	glPopMatrix();
+}
+
+
+
+
+
 
 void arbol()
 {
@@ -281,14 +364,109 @@ void InitGL ( GLvoid )     // Inicializamos parametros
     neblina.LoadTGA("Texturas/neblina.tga");
 	neblina.BuildGLTexture();
 	neblina.ReleaseImage();
+	neblina1.LoadTGA("Texturas/neblina1.tga");
+	neblina1.BuildGLTexture();
+	neblina1.ReleaseImage();
 	trans.LoadTGA("Texturas/tranzparencia.tga");
 	trans.BuildGLTexture();
 	trans.ReleaseImage();
+	wall.LoadTGA("Texturas/wall.tga");
+	wall.BuildGLTexture();
+	wall.ReleaseImage();
+	piso.LoadTGA("Texturas/floor.tga");
+	piso.BuildGLTexture();
+	piso.ReleaseImage();
+	door.LoadTGA("Texturas/door.tga");
+	door.BuildGLTexture();
+	door.ReleaseImage();
+	wood.LoadTGA("Texturas/techo.tga");
+	wood.BuildGLTexture();
+	wood.ReleaseImage();
+	ventana.LoadTGA("Texturas/ventana.tga");
+	ventana.BuildGLTexture();
+	ventana.ReleaseImage();
+	ventan_arriba.LoadTGA("Texturas/ventan_arriba.tga");
+	ventan_arriba.BuildGLTexture();
+	ventan_arriba.ReleaseImage();
+	vela.LoadTGA("Texturas/vela.tga");
+	vela.BuildGLTexture();
+	vela.ReleaseImage();
+	penta.LoadTGA("Texturas/penta.tga");
+	penta.BuildGLTexture();
+	penta.ReleaseImage();
+	cuadro1.LoadTGA("Texturas/feo.tga");
+	cuadro1.BuildGLTexture();
+	cuadro1.ReleaseImage();
+	cuadro2.LoadTGA("Texturas/boca.tga");
+	cuadro2.BuildGLTexture();
+	cuadro2.ReleaseImage();
+	cuadro3.LoadTGA("Texturas/face.tga");
+	cuadro3.BuildGLTexture();
+	cuadro3.ReleaseImage();
 	//END NEW//////////////////////////////
 
 	objCamera.Position_Camera(0,2.5f,3, 0,2.5f,0, 0, 1, 0);
 
 }
+
+void triangulo(GLuint textura1)  //Funcion creacion prisma
+{
+
+	GLfloat vertice[6][3] = {
+		{ -0.5 ,-0.3, 0.5 },    //Coordenadas Vértice 0 V0
+		{ 0.5 ,-0.3, 0.5 },    //Coordenadas Vértice 1 V1
+		{ 0.0 ,0.3, 0.5 },    //Coordenadas Vértice 2 V2
+		{ 0.0 ,0.3, -0.5 },    //Coordenadas Vértice 3 V3
+		{ 0.5 ,-0.3, -0.5 },    //Coordenadas Vértice 4 V4
+		{ -0.5 ,-0.3, -0.5 },    //Coordenadas Vértice 5 V5
+
+	};
+
+
+	glBindTexture(GL_TEXTURE_2D, textura1);   // choose the texture to use.
+	glBegin(GL_POLYGON);	//Front
+	//glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[0]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[1]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[2]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//Right
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[1]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[2]);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[3]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[4]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//Back
+	glNormal3f(0.0f, 1.0f, -1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[5]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[4]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[3]);
+	glEnd();
+
+	glBegin(GL_POLYGON);  //Left
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[0]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[5]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[3]);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[2]);
+	glEnd();
+
+	glBegin(GL_POLYGON);  //Bottom
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[0]);
+	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[1]);
+	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[4]);
+	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[5]);
+	glEnd();
+
+}
+
+
+
 
 
 void display ( void )   // Creamos la funcion donde se dibuja
@@ -324,7 +502,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 			/*************************************************/
 			/*CASITA*/
+			
+			glTranslatef(-20.0, 0.0, -30.0);
+			glScalef(0.7, 0.7, 0.7);
+			
 			glPushMatrix();
+
 			glDisable(GL_LIGHTING);
 			glColor3f(0.2, 0.2, 0.2);
 			glTranslatef(0.0, 10.1, 0.0);
@@ -623,12 +806,243 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		//glRotatef(90.0, 1.0, 0.0, 0.0);
 		glTranslatef(0.0, 0.0, -1.0);
 		glScalef(130.0, 1.0, 130.0);
-		prisma.prisma_anun(neblina.GLindex, trans.GLindex);
+		prisma.prisma_anun(neblina1.GLindex, trans.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+/**********************************************/
+
+
+/*IGLESIA*/
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2,0.2,0.2);
+		glTranslatef(0.0, 12.5, 10.0);
+		prisma.prisma(25.0, 25.0, 0.5, wall.GLindex);
+		glEnable(GL_LIGHTING);
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2, 0.2, 0.2);
+		glTranslatef(12.5, 0.0, 15.2);
+		prisma.prisma(25.0, 0.5, 30.0, wall.GLindex);
 		glEnable(GL_LIGHTING);
 		glPopMatrix();
 
 
-/**********************************************/
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2, 0.2, 0.2);
+		glTranslatef(-12.5, 0.0, 15.2);
+		prisma.prisma(25.0, 0.5, 30.0,wall.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2, 0.2, 0.2);
+		glTranslatef(0.0, -12.4, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		glScalef(1.22, 1.51, 0.0);
+		plano(piso.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2, 0.2, 0.2);
+		glTranslatef(0.0, 0.0, 30.0);
+		prisma.prisma(25.0, 25.0, 0.5, door.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2, 0.2, 0.2);
+		glTranslatef(0.0, 21.6, 15.0);
+		glScalef(30.0, 30.0, 30.0);
+		triangulo(wood.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.4, 0.4);
+		glTranslatef(-12.0, 2.0, 7.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glScalef(0.3, 0.3, 0.0);//ventana
+		plano(ventana.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.4, 0.4);
+		glTranslatef(-12.9, 2.0, 7.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glScalef(0.3, 0.3, 0.0);//ventana
+		plano(ventana.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.4, 0.4);
+		glTranslatef(-12.0, 2.0, 24.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glScalef(0.3, 0.3, 0.0);//ventana
+		plano(ventana.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.4, 0.4);
+		glTranslatef(-12.9, 2.0, 24.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glScalef(0.3, 0.3, 0.0);//ventana
+		plano(ventana.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.4, 0.4);
+		glTranslatef(12.0, 2.0, 7.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glScalef(0.3, 0.3, 0.0);
+		plano(ventana.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.4, 0.4);
+		glTranslatef(12.9, 2.0, 7.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glScalef(0.3, 0.3, 0.0);
+		plano(ventana.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.4, 0.4);
+		glTranslatef(12.0, 2.0, 24.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glScalef(0.3, 0.3, 0.0);//ventana
+		plano(ventana.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.4, 0.4);
+		glTranslatef(12.9, 2.0, 24.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glScalef(0.3, 0.3, 0.0);//ventana
+		plano(ventana.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.4, 0.4);
+		glTranslatef(0.0, 18.0, 30.1);
+		glScalef(0.3, 0.5, 0.0);//ventana techo
+		plano(ventan_arriba.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+		/////////VELAS/////////////////////////
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.9, 0.9, 0.9);
+		glTranslatef(0.0, -12.2, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		glScalef(1.22, 1.51, 0.0);
+		plano(penta.GLindex);
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(0.0, -12.0, 17.0);
+		glScalef(0.1, 0.1, 0.1);
+		dosde(vela.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(0.0, -12.0, 27.0);
+		glScalef(0.1, 0.1, 0.1);
+		dosde(vela.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(6.0, -12.0, 5.0);
+		glScalef(0.1, 0.1, 0.1);
+		dosde(vela.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-6.0, -12.0, 5.0);
+		glScalef(0.1, 0.1, 0.1);
+		dosde(vela.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(-9.0, -12.0, 20.0);
+		glScalef(0.1, 0.1, 0.1);
+		dosde(vela.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(9.0, -12.0, 20.0);
+		glScalef(0.1, 0.1, 0.1);
+		dosde(vela.GLindex);
+		glPopMatrix();
+		////////////////////////////////////////////////////
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2, 0.2, 0.2);
+		glTranslatef(-11.9, 5.0, 15.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		prisma.prisma2(7.0, 5.5, 0.5, cuadro1.GLindex, madera.GLindex);//cuadro
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2, 0.2, 0.2);
+		glTranslatef(11.9, 5.0, 15.0);
+		glRotatef(-90.0, 0.0, 1.0, 0.0);
+		prisma.prisma2(7.0, 5.5, 0.5, cuadro2.GLindex, madera.GLindex);//cuadro
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+
+		glPushMatrix();
+		glDisable(GL_LIGHTING);
+		glColor3f(0.2, 0.2, 0.2);
+	//	glRotatef(90.0, 0.0, 1.0, 0.0);
+		glTranslatef(0.0, 5.0, 0.5);
+		prisma.prisma2(12.0, 5.0, 0.5, cuadro3.GLindex, madera.GLindex);//cuadro
+		glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+
+
+
+
+		glPopMatrix();
+/*****************************/
+
 	glPopMatrix();
 
 	glutSwapBuffers ( );
