@@ -1010,7 +1010,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 		glPushMatrix();
 		glDisable(GL_LIGHTING);
-		glColor3f(0.2, 0.2, 0.2);
+		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(-11.9, 5.0, 15.0);
 		glRotatef(90.0, 0.0, 1.0, 0.0);
 		prisma.prisma2(7.0, 5.5, 0.5, cuadro1.GLindex, madera.GLindex);//cuadro
@@ -1019,7 +1019,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 		glPushMatrix();
 		glDisable(GL_LIGHTING);
-		glColor3f(0.2, 0.2, 0.2);
+		glColor3f(1.0, 1.0, 1.0);
 		glTranslatef(11.9, 5.0, 15.0);
 		glRotatef(-90.0, 0.0, 1.0, 0.0);
 		prisma.prisma2(7.0, 5.5, 0.5, cuadro2.GLindex, madera.GLindex);//cuadro
@@ -1029,7 +1029,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 		glPushMatrix();
 		glDisable(GL_LIGHTING);
-		glColor3f(0.2, 0.2, 0.2);
+		glColor3f(1.0, 1.0, 1.0);
 	//	glRotatef(90.0, 0.0, 1.0, 0.0);
 		glTranslatef(0.0, 5.0, 0.5);
 		prisma.prisma2(12.0, 5.0, 0.5, cuadro3.GLindex, madera.GLindex);//cuadro
@@ -1112,6 +1112,9 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			break;        
 		default:        // Cualquier otra
 			break;
+		case 'T':
+			
+			break;
   }
 
   glutPostRedisplay();
@@ -1152,7 +1155,7 @@ void arrow_keys ( int a_keys, int x, int y )  // Funcion para manejo de teclas e
 
 int main ( int argc, char** argv )   // Main Function
 {
-
+  PlaySound(TEXT("Soundtrack/Malthael.wav"), NULL, SND_ASYNC | SND_LOOP);
   glutInit            (&argc, argv); // Inicializamos OpenGL
   glutInitDisplayMode (GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
   glutInitWindowSize  (1800, 1800);	// Tamaño de la Ventana
