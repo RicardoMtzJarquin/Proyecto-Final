@@ -21,7 +21,7 @@ int frame=0,time,timebase=0;
 int deltaTime = 0;
 
 //NEW// Keyframes
-float posX = 0, posY = 2.5, posZ = -3.5, rotRodIzq = 0;
+float posX = -25, posY = 7.25, posZ = -3.5, rotRodIzq = 0;
 float giroMonito = 0;
 float movBrazoDer = 0.0;
 
@@ -105,6 +105,7 @@ CTexture bruja2;
 CTexture sangre_tortura;
 CTexture woodS;
 CTexture carne;
+CTexture cara;
 ////////////////////////////////////////     Carga de Figuras   //////////////////////////////////////////////
 CFiguras sky;
 CFiguras prisma;
@@ -118,8 +119,6 @@ CModel FEMUR;
 /////////////////////////////////////////////7  Animaciones del Carro y variables del monito //////////////////////77
 //Animación del coche
 
-float giroruedas = 0;
-
 float angRot = 0.0;
 float movKitX = -50;
 float movKitY = 0;
@@ -130,19 +129,25 @@ float contador = 0.0;
 float brujax = 53.0;
 float brujay = 80.0;
 float brujaz = 50.0;
-
+float rotbruja = 0.0;
 bool circuito = false;
 bool recorrido1 = true;
 bool recorrido2 = false;
 bool recorrido3 = false;
 bool recorrido4 = false;
 bool recorrido5 = false;
-
 bool recorrido6 = false;
 bool recorrido7 = false;
 bool recorrido8 = false;
 bool recorrido9 = false;
 bool recorrido10 = false;
+
+bool brujitaveloz = false;
+bool brujita1 = true;
+bool brujita2 = false;
+bool brujita3 = false;
+bool brujita4 = false;
+bool brujita5 = false;
 
 
 void plano(GLint text) {
@@ -452,34 +457,39 @@ void interpolation(void)
 
 void monito()
 {
-	//glNewList(1, GL_COMPILE);
 	glPushMatrix();//Pecho
 	glScalef(0.5, 0.5, 0.5);
-	fig7.prisma(2.0, 2.0, 1, text2.GLindex);
-
+	glColor3f(0.5, 0.25, 0.25);          //cafe
+	fig7.prisma(2.0, 2.0, 1, 0);
 	glPushMatrix();//Cuello
 	glTranslatef(0, 1.0, 0.0);
+	glColor3f(0.0, 1.0, 0.0);      //verde
 	fig7.cilindro(0.25, 0.25, 15, 0);
 	glPushMatrix();//Cabeza
 	glTranslatef(0, 1.0, 0);
-	fig7.esfera(0.75, 15, 15, 0);
+	glRotatef(80, 0.0, 1.0, 0.0);
+	glColor3f(1.0, 1.0, 1.0);    //blanco
+	fig7.esfera(0.75, 15, 15, cara.GLindex);
 	glPopMatrix();
 	glPopMatrix();
 
 	glPushMatrix(); //Brazo derecho-->
 	glTranslatef(1.25, 0.65, 0);
+	glColor3f(0.5, 0.25, 0.25);     //cafe
 	fig7.esfera(0.5, 12, 12, 0);
 	glPushMatrix();
 	glTranslatef(0.25, 0, 0);
 	glRotatef(movBrazoDer, 0.0, 0.0, 1.0);
 	glRotatef(-45, 0, 1, 0);
 	glTranslatef(0.75, 0, 0);
+	glColor3f(0.0, 1.0, 0.0);      //verde
 	fig7.prisma(0.7, 1.5, 0.7, 0);
 	glPopMatrix();
 	glPopMatrix();
 
 	glPushMatrix(); //Brazo izquierdo <--
 	glTranslatef(-1.25, 0.65, 0);
+	glColor3f(0.5, 0.25, 0.25);     //cafe
 	fig7.esfera(0.5, 12, 12, 0);
 	glPushMatrix();
 	glTranslatef(-0.25, 0, 0);
@@ -487,6 +497,7 @@ void monito()
 	glRotatef(25, 0, 0, 1);
 	glRotatef(25, 1, 0, 0);
 	glTranslatef(-0.75, 0, 0);
+	glColor3f(0.0, 1.0, 0.0);      //verde
 	fig7.prisma(0.7, 1.5, 0.7, 0);
 	glPopMatrix();
 	glPopMatrix();
@@ -543,6 +554,7 @@ void monito()
 	glPopMatrix();
 	//glEndList();
 }
+
 	
 void InitGL ( GLvoid )     // Inicializamos parametros
 {
@@ -683,6 +695,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	bruja2.LoadTGA("Texturas/bruja2.tga");
 	bruja2.BuildGLTexture();
 	bruja2.ReleaseImage();
+
+	cara.LoadBMP("Texturas/cara.bmp");
+	cara.BuildGLTexture();
+	cara.ReleaseImage();
 	
 	////////////////////carga de modelos ///////////////////////////
 
@@ -1368,12 +1384,14 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPopMatrix();
 
 		glPushMatrix();
+		glDisable(GL_LIGHTING);
 			glTranslatef(brujax, brujay, brujaz);
 			glColor3f(1.0, 1.0, 1.0);
 			glEnable(GL_ALPHA_TEST);
 			glAlphaFunc(GL_GREATER, 0.1);
 			fig7.prisma1(15, 15, 0.01, bruja.GLindex,bruja2.GLindex);
 			glDisable(GL_ALPHA_TEST);
+			glEnable(GL_LIGHTING);
 		glPopMatrix();
 
 		glTranslatef(20.0, 0.0, -10.0);//cama
@@ -1683,6 +1701,21 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		///caballo
 		glPopMatrix();
 
+		///////////////////////////monitto
+
+		glPushMatrix();
+			glEnable(GL_COLOR_MATERIAL);
+			glColor3f(1, 1, 1);
+			glTranslatef(posX, posY, posZ);
+			glRotatef(giroMonito, 0, 1, 0);
+			glScalef(3.0, 3.0, 3.0);
+			monito();
+			glDisable(GL_COLOR_MATERIAL);
+		glPopMatrix();
+
+
+
+
 	glPopMatrix();
 
 	glutSwapBuffers ( );
@@ -1784,7 +1817,62 @@ void animacion()
 //////////////////////////////  FIN animacion kit diabolico             /////////////////////////7
 
 ///////////////////// animacion bruja sexi ///////////////////
-
+	if (brujitaveloz)
+	{
+		if (brujita1)
+		{
+			brujay--;
+			brujaz--;
+			if (brujaz < 10)
+			{
+				brujita1 = false;
+				brujita2 = true;
+			}
+		}
+		if (brujita2)
+		{
+			brujaz--;
+			brujax--;
+			rotbruja = 360;
+			if (brujax < -3)
+			{
+				brujita2 = false;
+				brujita3 = true;
+			}
+		}
+		if (brujita3)
+		{
+			brujay++;
+			brujaz++;
+			if (brujay > 80)
+			{
+				brujita3 = false;
+				brujita4 = true;
+			}
+		}
+		if (brujita4)
+		{
+			brujax++;
+			if (brujax > 50)
+			{
+				brujita4 = false;
+				brujita5 = true;
+			}
+		}
+		if (brujita5)
+		{
+			brujax--;
+			if (brujax < 50)
+			{
+				brujaz = 50;
+				brujax = 53;
+				brujay = 80;
+				rotbruja = 0.0;
+				brujita5 = false;
+				brujita1 = true;
+			}
+		}
+	}
 ///////////////////// FIN animacion bruja sexi ///////////////////
 
 	//Movimiento del monito
@@ -1886,10 +1974,12 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			break;
 		
 		case '2':
-			circuito ^= true;
-			printf("%f  X \n", movKitX);
-			printf("%f Y \n", movKitY);
-			printf("%f Z\n", movKitZ);
+			brujitaveloz ^= true;
+			printf("%f X \n", brujax);
+			printf("%f Y \n", brujay);
+			printf("%f Z \n", brujaz);
+			printf("%f Z \n", rotbruja);
+			printf("\n\n");
 			break;
 
 		case 'k':		
@@ -1967,9 +2057,6 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			exit ( 0 );   // Salimos del programa
 			break;        
 		default:        // Cualquier otra
-			break;
-		case 'T':
-			
 			break;
   }
 
